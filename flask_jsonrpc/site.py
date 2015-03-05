@@ -293,10 +293,6 @@ class JSONRPCSite(object):
             response['error'] = other_error.json_rpc_format
             status = other_error.status
 
-        # extract id the request
-        json_request_id = self.extract_id_request(raw_data)
-        response['id'] = json_request_id
-
         return response, status
 
     def procedure_desc(self, key):
