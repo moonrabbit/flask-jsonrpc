@@ -32,15 +32,13 @@ from flask import current_app, request, json
 from flask_jsonrpc._compat import b, u, text_type
 from flask_jsonrpc.exceptions import InvalidCredentialsError, InvalidParamsError
 
-from json import dumps
-
 
 def jsonify(response):
     indent = None
     if current_app.config['JSONIFY_PRETTYPRINT_REGULAR'] \
         and not request.is_xhr:
         indent = 2
-    return current_app.response_class(dumps(response, indent=indent),
+    return current_app.response_class(json.dumps(response, indent=indent),
                                       mimetype='application/json')
 
 
