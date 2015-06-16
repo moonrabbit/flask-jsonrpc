@@ -236,6 +236,10 @@ class JSONRPCSite(object):
             if version in ('1.1', '2.0') and 'result' in response:
                 response.pop('result')
             status = e.status
+        except Exception as e:
+            other_error = OtherError(e)
+            response['error'] = other_error.json_rpc_format
+            status = other_error.status
 
         # Exactly one of result or error MUST be specified. It's not
         # allowed to specify both or none.
@@ -281,9 +285,6 @@ class JSONRPCSite(object):
             response['result'] = None
             response['error'] = other_error.json_rpc_format
             status = other_error.status
-
-            logger = current_app.logger
-            logger.exception('unexpected exception raised')
 
         return response, status
 
